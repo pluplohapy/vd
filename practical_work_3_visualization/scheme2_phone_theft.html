@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 500px;
+                 background-color: #1E293B;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#EF4444", "font": {"color": "white"}, "id": "PN_EU_0_763", "label": "EU_0_763", "shape": "dot", "size": 30, "title": "PN_EU_0_763\n\u0416\u0435\u0440\u0442\u0432\u0430 (EU)"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "PN_Ret3", "label": "RET3", "shape": "dot", "size": 20, "title": "PN_Ret3\n\u0410\u0433\u0435\u043d\u0442 (RET)"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "PN_Ret6", "label": "RET6", "shape": "dot", "size": 20, "title": "PN_Ret6\n\u0410\u0433\u0435\u043d\u0442 (RET)"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "PN_Ret4", "label": "RET4", "shape": "dot", "size": 20, "title": "PN_Ret4\n\u0410\u0433\u0435\u043d\u0442 (RET)"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "PN_Ret1", "label": "RET1", "shape": "dot", "size": 20, "title": "PN_Ret1\n\u0410\u0433\u0435\u043d\u0442 (RET)"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "PN_EU_0_77", "label": "EU_0_77", "shape": "dot", "size": 30, "title": "PN_EU_0_77\n\u0416\u0435\u0440\u0442\u0432\u0430 (EU)"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "PN_Ret2", "label": "RET2", "shape": "dot", "size": 20, "title": "PN_Ret2\n\u0410\u0433\u0435\u043d\u0442 (RET)"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "PN_EU_0_876", "label": "EU_0_876", "shape": "dot", "size": 30, "title": "PN_EU_0_876\n\u0416\u0435\u0440\u0442\u0432\u0430 (EU)"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "PN_EU_0_81", "label": "EU_0_81", "shape": "dot", "size": 30, "title": "PN_EU_0_81\n\u0416\u0435\u0440\u0442\u0432\u0430 (EU)"}, {"color": "#F59E0B", "font": {"color": "white"}, "id": "PN_Ret5", "label": "RET5", "shape": "dot", "size": 20, "title": "PN_Ret5\n\u0410\u0433\u0435\u043d\u0442 (RET)"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "PN_EU_0_1017", "label": "EU_0_1017", "shape": "dot", "size": 30, "title": "PN_EU_0_1017\n\u0416\u0435\u0440\u0442\u0432\u0430 (EU)"}, {"color": "#EF4444", "font": {"color": "white"}, "id": "PN_EU_0_1044", "label": "EU_0_1044", "shape": "dot", "size": 30, "title": "PN_EU_0_1044\n\u0416\u0435\u0440\u0442\u0432\u0430 (EU)"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_763", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 4,079 mM", "to": "PN_Ret3", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_763", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 767 mM", "to": "PN_Ret6", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_763", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 17,724 mM", "to": "PN_Ret4", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_763", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 34,780 mM", "to": "PN_Ret1", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_77", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 5,229 mM", "to": "PN_Ret2", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_77", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 2\n\u0418\u0442\u043e\u0433\u043e: 1,442 mM", "to": "PN_Ret4", "width": 1.5}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_77", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 2,682 mM", "to": "PN_Ret1", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_876", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 7,991 mM", "to": "PN_Ret6", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_876", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 2\n\u0418\u0442\u043e\u0433\u043e: 18,318 mM", "to": "PN_Ret4", "width": 1.5}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_876", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 9,070 mM", "to": "PN_Ret1", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_81", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 2\n\u0418\u0442\u043e\u0433\u043e: 36,877 mM", "to": "PN_Ret4", "width": 1.5}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_81", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 28,372 mM", "to": "PN_Ret6", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_81", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 20,413 mM", "to": "PN_Ret5", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1017", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 33,517 mM", "to": "PN_Ret3", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1017", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 19,085 mM", "to": "PN_Ret2", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1017", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 10,483 mM", "to": "PN_Ret6", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1017", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 33,759 mM", "to": "PN_Ret5", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1044", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 2\n\u0418\u0442\u043e\u0433\u043e: 35,264 mM", "to": "PN_Ret6", "width": 1.5}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1044", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 11 mM", "to": "PN_Ret2", "width": 1.0}, {"arrows": "to", "color": "#EF4444", "from": "PN_EU_0_1044", "title": "\u0421\u043d\u044f\u0442\u0438\u0439: 1\n\u0418\u0442\u043e\u0433\u043e: 5,430 mM", "to": "PN_Ret4", "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"barnesHut": {"gravitationalConstant": -5000, "springLength": 150}, "stabilization": {"iterations": 150}}, "edges": {"arrows": {"to": {"enabled": true}}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
